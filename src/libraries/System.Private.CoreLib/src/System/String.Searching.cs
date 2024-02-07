@@ -8,6 +8,16 @@ namespace System
 {
     public partial class String
     {
+        public bool ContainsAny(params string[] values)
+        {
+            return IndexOfAny(values) >= 0;
+        }
+        
+        public bool ContainsAny(string[] values, StringComparison comparisonType)
+        {
+            return IndexOfAny(values, comparisonType) >= 0;
+        }
+
         public bool Contains(string value)
         {
             if (value == null)
@@ -114,6 +124,44 @@ namespace System
         // Returns the index of the first occurrence of any specified character in the current instance.
         // The search starts at startIndex and runs to startIndex + count - 1.
         //
+        public int IndexOfAny(string[] anyOf)
+        {
+            if (anyOf is null)
+            {
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.anyOf);
+            }
+
+            foreach (string value in values)
+            {
+                int index;
+                if ((index = IndexOf(value)) >= 0)
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        public int IndexOfAny(string[] anyOf, StringComparison comparisonType)
+        {
+            if (anyOf is null)
+            {
+                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.anyOf);
+            }
+
+            foreach (string value in values)
+            {
+                int index;
+                if ((index = IndexOf(value, comparisonType)) >= 0)
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
         public int IndexOfAny(char[] anyOf)
         {
             if (anyOf is null)
